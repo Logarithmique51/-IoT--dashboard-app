@@ -48,7 +48,7 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
-ipcMain.on('blink', async (event,id) => {
+ipcMain.on('blink', async (event, id) => {
   iot.client.client.publish(`maison/lampe/${id}`, 'HELLO FROM FRONT');
   console.log(id);
 });

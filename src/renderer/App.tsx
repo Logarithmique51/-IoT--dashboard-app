@@ -32,24 +32,45 @@ const themeoptions: ThemeOptions = {
 const themes = createTheme(themeoptions);
 
 function Hello() {
-  const [deviceList,setDeviceList] = useState<Device[]>([])
+  const [devices,setDevices] = useState<Device[]>([])
 
-  const handleDiscovery = (args: Device) => {
-    setDeviceList(prev => {
-      console.log("Received:", args);
-      // Check if the received device already exists in the list
-      if (!prev.some(device => device.id === args.id)) {
-        console.log("Added:", args.id);
-        return [...prev, args]; // Add the new device to the list
+  // const handleDiscovery = (args: Device) => {
+  //   setDeviceList(prev => {
+  //     console.log("Received:", args);
+  //     // Check if the received device already exists in the list
+  //     if (!prev.some(device => device.id === args.id)) {
+  //       console.log("Added:", args.id);
+  //       return [...prev, args]; // Add the new device to the list
+  //     }
+  //     return prev; // If the device already exists, return the previous list
+  //   });
+  // }
+
+
+  const addOrUpdateDevice = (device: Device) => {
+    setDevices(prevDevices => {
+      const index = prevDevices.findIndex(d => d.id === device.id);
+      if (index !== -1) {
+        // Device with same ID exists, update its properties
+        const updatedDevices = [...prevDevices];
+        updatedDevices[index] = {
+          ...updatedDevices[index],
+          mac: device.mac,
+          ip: device.ip,
+          strenght: device.strenght
+        };
+        return updatedDevices;
+      } else {
+        return [...prevDevices, device];
       }
-      return prev; // If the device already exists, return the previous list
     });
-  }
+  };
+
 
   useEffect(() => {
-    window.electron.ipcRenderer.on('discovery',handleDiscovery);
+    window.electron.ipcRenderer.on('discovery',addOrUpdateDevice);
     return () => {
-      window.electron.ipcRenderer.removeEventListener('discovery',handleDiscovery);
+      window.electron.ipcRenderer.removeEventListener('discovery',addOrUpdateDevice);
     }
   })
 
@@ -70,8 +91,8 @@ function Hello() {
         <Box display={'flex'} flexWrap={'wrap'} gap={2} justifyContent={'center'} m={2}>
 
           {
-            deviceList &&
-            deviceList.map((val)=>(
+            devices &&
+            devices.map((val)=>(
               <Card sx={{}} key={val.mac}>
                 <CardActionArea onClick={()=>sendBlink(val.id)} >
                   <CardHeader title={val.ip}/>

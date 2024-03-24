@@ -51,11 +51,8 @@ export default class IoTServer {
       IoTServer.username === username?.toString() &&
       IoTServer.password === password?.toString()
     ) {
-      console.log('SUCCESS LOG');
-      console.log(client.id);
       done(null, true);
     } else {
-      console.log('UNAUTORIZED');
       done(
         {
           message: 'Invalid',

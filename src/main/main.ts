@@ -15,6 +15,8 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import IoTServer from './mqtt/IoTServer';
+import '../flare/flare'
+
 
 class AppUpdater {
   constructor() {

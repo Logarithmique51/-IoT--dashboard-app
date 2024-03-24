@@ -34,18 +34,6 @@ const themes = createTheme(themeoptions);
 function Hello() {
   const [devices,setDevices] = useState<Device[]>([])
 
-  // const handleDiscovery = (args: Device) => {
-  //   setDeviceList(prev => {
-  //     console.log("Received:", args);
-  //     // Check if the received device already exists in the list
-  //     if (!prev.some(device => device.id === args.id)) {
-  //       console.log("Added:", args.id);
-  //       return [...prev, args]; // Add the new device to the list
-  //     }
-  //     return prev; // If the device already exists, return the previous list
-  //   });
-  // }
-
 
   const addOrUpdateDevice = (device: Device) => {
     setDevices(prevDevices => {

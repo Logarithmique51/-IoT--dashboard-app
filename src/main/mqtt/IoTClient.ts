@@ -21,7 +21,6 @@ export default class IoTClient{
     })
 
     this.client.on('connect',(packet)=>{
-      console.log(packet);
       this.client.subscribe('#');
    })
 

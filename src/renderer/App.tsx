@@ -72,12 +72,15 @@ function Hello() {
      window.electron.ipcRenderer.sendMessage('blink',id)
   }
 
+  const launch = () => {
+    window.electron.ipcRenderer.sendMessage('launch');
+  }
+
   return (
     <div>
       <ThemeProvider theme={themes}>
         <CssBaseline/>
         <Box display={'flex'} flexWrap={'wrap'} gap={2} justifyContent={'center'} m={2}>
-
           {
             devices &&
             devices.map((val)=>(
@@ -95,7 +98,7 @@ function Hello() {
             ))
           }
         </Box>
-        <Button>ok</Button>
+        <Button onClick={launch}>ok</Button>
       </ThemeProvider>
     </div>
   );

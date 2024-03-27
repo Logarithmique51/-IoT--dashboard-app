@@ -15,7 +15,7 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import IoTServer from './mqtt/IoTServer';
-import '../flare/flare'
+import launch from '../flare/flare'
 
 
 class AppUpdater {
@@ -27,7 +27,7 @@ class AppUpdater {
 }
 
 const iot = new IoTServer(
-  '192.168.1.29',
+  '172.20.10.2',
   1883,
   'LIMITLESSLOGIC',
   'AZLIMIT51100',
@@ -52,8 +52,11 @@ ipcMain.on('ipc-example', async (event, arg) => {
 
 ipcMain.on('blink', async (event, id) => {
   iot.client.client.publish(`maison/lampe/${id}`, 'HELLO FROM FRONT');
-  console.log(id);
 });
+
+ipcMain.on('launch',async (event) => {
+  launch();
+})
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
